@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación Chidísima</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+      .presentacion-container {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #111 60%, #ffe066 100%);
+        padding: 0 10vw;
+        animation: fondoFade 1.2s;
+      }
+      @keyframes fondoFade {
+        from { filter: brightness(0.5) blur(8px);}
+        to   { filter: brightness(1) blur(0);}
+      }
+      .presentacion-card {
+        background: rgba(30,30,30,0.98);
+        border-radius: 22px;
+        box-shadow: 0 8px 32px #ffe06655, 0 4px 18px #66e0ff33;
+        padding: 38px 32px 32px 32px;
+        max-width: 600px;
+        width: 100%;
+        margin-bottom: 32px;
+        border: 2.5px solid #ffe066;
+        position: relative;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(60px) scale(0.98);
+        animation: cardFadeIn 1.1s cubic-bezier(.6,1.5,.5,1) forwards;
+      }
+      .presentacion-card:nth-child(2) {
+        animation-delay: 0.35s;
+      }
+      .presentacion-card:nth-child(3) {
+        animation-delay: 0.7s;
+      }
+      @keyframes cardFadeIn {
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      .presentacion-card h1 {
+        color: #ffe066;
+        font-size: 2.6em;
+        margin-bottom: 10px;
+        letter-spacing: 1px;
+        text-shadow: 0 2px 8px #222a;
+        opacity: 0;
+        animation: tituloFade 1.2s 0.2s forwards;
+      }
+      @keyframes tituloFade {
+        to { opacity: 1; }
+      }
+      .presentacion-card h2 {
+        color: #66e0ff;
+        font-size: 1.5em;
+        margin-top: 0;
+        margin-bottom: 18px;
+        font-weight: 600;
+        opacity: 0;
+        animation: subtituloFade 1.1s 0.4s forwards;
+      }
+      @keyframes subtituloFade {
+        to { opacity: 1; }
+      }
+      .presentacion-card p, .presentacion-card ul {
+        opacity: 0;
+        animation: textoFade 1.1s 0.7s forwards;
+      }
+      .presentacion-card ul {
+        animation-delay: 0.8s;
+      }
+      @keyframes textoFade {
+        to { opacity: 1; }
+      }
+      .presentacion-card .icono {
+        position: absolute;
+        top: -32px;
+        right: -32px;
+        opacity: 0.13;
+        font-size: 10em;
+        pointer-events: none;
+        animation: iconoBrilla 2.5s infinite alternate;
+      }
+      @keyframes iconoBrilla {
+        from { filter: drop-shadow(0 0 0 #ffe066); }
+        to   { filter: drop-shadow(0 0 24px #ffe066cc); }
+      }
+      .presentacion-footer {
+        color: #ffe066;
+        font-size: 1.1em;
+        margin-top: 18px;
+        text-align: center;
+        opacity: 0;
+        animation: footerFade 1.2s 1.1s forwards;
+      }
+      @keyframes footerFade {
+        to { opacity: 0.8; }
+      }
+      @media (max-width: 700px) {
+        .presentacion-container {
+          padding: 0 2vw;
+        }
+        .presentacion-card {
+          padding: 22px 8vw 18px 8vw;
+        }
+        .presentacion-card h1 {
+          font-size: 2em;
+        }
+        .presentacion-card .icono {
+          font-size: 5em;
+        }
+      }
+    </style>
+</head>
+<body>
+  <div class="presentacion-container">
+    <div class="presentacion-card">
+      <span class="icono">💡</span>
+      <h1>¡Bienvenido a la Presentación Del Grupo 4!</h1>
+      <h2>Proyecto Consumo Eléctrico Escolar</h2>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque euismod, nisi eu consectetur cursus, nisl erat dictum enim, nec dictum urna erat nec enim. Mauris euismod, sapien nec laoreet dictum, enim erat dictum urna, nec dictum urna erat nec enim.
+      </p>
+      <p>
+        Integer feugiat, augue ac facilisis cursus, enim erat dictum urna, nec dictum urna erat nec enim. Suspendisse potenti. Etiam nec urna nec enim dictum dictum. Proin euismod, sapien nec laoreet dictum, enim erat dictum urna, nec dictum urna erat nec enim.
+      </p>
+      <p>
+        <b>¿Por qué este proyecto?</b><br>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nec urna nec enim dictum dictum. Proin euismod, sapien nec laoreet dictum, enim erat dictum urna, nec dictum urna erat nec enim.
+      </p>
+    </div>
+    <div class="presentacion-card">
+      <span class="icono">⚡</span>
+      <h2>Características Destacadas</h2>
+      <ul class="caracteristicas">
+        <li>Calculadora de consumo súper intuitiva</li>
+        <li>Gráficos interactivos y animaciones</li>
+        <li>Historial de consumo mes a mes</li>
+        <li>Alertas visuales y educativas</li>
+        <li>¡Y mucho más!</li>
+      </ul>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque euismod, nisi eu consectetur cursus, nisl erat dictum enim, nec dictum urna erat nec enim.
+      </p>
+    </div>
+    <div class="presentacion-footer">
+      © 2025 Proyecto Innova - Presentación de ejemplo <br>
+      <span style="font-size:1.3em;">✨</span>
+    </div>
+  </div>
+</body>
+</html>
