@@ -1,0 +1,274 @@
+.foco {
+    position: relative;
+    width: 120px;
+    height: 180px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+.foco svg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: none;
+}
+.foco .foco-mitad {
+    transition: transform 0.9s cubic-bezier(.7,1.7,.5,1), opacity 0.7s;
+    transform-origin: 60px 80px;
+}
+.foco .foco-mitad.izq {
+    z-index: 2;
+}
+.foco .foco-mitad.der {
+    z-index: 2;
+}
+.foco .foco-mitad.caida-izq {
+    transform: rotate(-60deg) translate(-40px, 120px);
+    opacity: 0.2;
+}
+.foco .foco-mitad.caida-der {
+    transform: rotate(60deg) translate(40px, 120px);
+    opacity: 0.2;
+}
+.form-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    justify-content: flex-start;
+}
+.form-row label {
+    min-width: 170px;
+    text-align: right;
+    margin: 0;
+    font-size: 1.04em;
+}
+.form-row span {
+    margin-left: 6px;
+    margin-right: 2px;
+    color: #ffe066;
+    font-size: 1.01em;
+}
+.form-row input[type="number"] {
+    margin-bottom: 0;
+}
+.principal-box {
+    font-size: 1.13em;
+    box-shadow: 0 6px 24px #ffe06633, 0 4px 18px #000a;
+    border-width: 2.5px;
+}
+.secundario-box {
+    font-size: 0.98em;
+    background: #191919;
+    border-width: 1px;
+    box-shadow: 0 2px 8px #ffe06622;
+}
+body {
+    background: #111;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Responsive layout for main content */
+.main-flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 32px;
+    width: 100%;
+    max-width: 1400px;
+}
+
+@media (max-width: 1100px) {
+    .main-flex {
+        flex-wrap: wrap;
+        gap: 18px;
+        max-width: 98vw;
+    }
+    .principal-box, .secundario-box {
+        min-width: 260px !important;
+        max-width: 98vw !important;
+    }
+}
+
+@media (max-width: 800px) {
+    .main-flex {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        max-width: 100vw;
+    }
+    .principal-box, .secundario-box {
+        min-width: 0 !important;
+        max-width: 100vw !important;
+        width: 100% !important;
+        box-sizing: border-box;
+    }
+    .foco {
+        margin-top: 18px;
+        margin-bottom: 10px;
+    }
+    .resultado {
+        padding: 18px 6vw 14px 6vw;
+    }
+}
+
+@media (max-width: 500px) {
+    .main-flex {
+        padding: 0 2vw;
+    }
+    .medidas, .resultado {
+        padding: 12px 2vw 10px 2vw;
+        font-size: 0.98em;
+    }
+    .conversor-box {
+        padding: 8px 2vw 6px 2vw;
+    }
+    .foco {
+        width: 90vw;
+        max-width: 120px;
+        min-width: 60px;
+        height: auto;
+    }
+    .foco svg {
+        width: 100%;
+        height: auto;
+    }
+    table {
+        font-size: 0.95em;
+    }
+}
+.foco {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    position: relative;
+}
+/* Animación de caída de mitades del foquito roto */
+.foco-animado #focoMitadIzq {
+    animation: caerMitadIzq 1.2s cubic-bezier(0.6,1.2,0.4,1.1) forwards;
+}
+.foco-animado #focoMitadDer {
+    animation: caerMitadDer 1.2s cubic-bezier(0.6,1.2,0.4,1.1) forwards;
+}
+@keyframes caerMitadIzq {
+    0% { transform: none; opacity: 1; }
+    60% { transform: translate(-18px, 60px) rotate(-22deg); opacity: 1; }
+    100% { transform: translate(-40px, 180px) rotate(-40deg); opacity: 0.7; }
+}
+@keyframes caerMitadDer {
+    0% { transform: none; opacity: 1; }
+    60% { transform: translate(18px, 60px) rotate(22deg); opacity: 1; }
+    100% { transform: translate(40px, 180px) rotate(40deg); opacity: 0.7; }
+}
+.medidas, .resultado {
+    background: #222;
+    padding: 24px 40px 20px 40px;
+    border-radius: 16px;
+    box-shadow: 0 4px 18px #000a;
+    text-align: center;
+    margin-bottom: 20px;
+    border: 1.5px solid #333;
+    transition: box-shadow 0.2s;
+}
+.medidas:hover {
+    box-shadow: 0 8px 32px #ffe06644, 0 4px 18px #000a;
+    border-color: #ffe066;
+}
+.medidas h2 {
+    margin-top: 0;
+}
+.medidas label {
+    display: block;
+    margin: 10px 0 5px 0;
+    font-size: 1.04em;
+}
+.medidas input[type="number"] {
+    width: 60px;
+    padding: 4px;
+    border-radius: 4px;
+    border: none;
+    margin-bottom: 10px;
+}
+.horas-input {
+    width: 50px;
+    margin-left: 10px;
+    background: #181818;
+    color: #ffe066;
+    border: 1px solid #444;
+}
+button {
+    margin-top: 10px;
+    padding: 8px 20px;
+    border-radius: 6px;
+    border: none;
+    background: linear-gradient(90deg, #ffe066 60%, #fffbe0 100%);
+    color: #222;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 8px #ffe06633;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+button:hover {
+    background: linear-gradient(90deg, #fffbe0 0%, #ffe066 100%);
+    box-shadow: 0 4px 16px #ffe06655;
+}
+.conversor-box {
+    background: #181818;
+    border-radius: 10px;
+    padding: 14px 18px 10px 18px;
+    margin-top: 10px;
+    box-shadow: 0 2px 8px #ffe06622;
+    border: 1px solid #333;
+    text-align: left;
+}
+.conversor-box label {
+    margin: 0 8px 0 0;
+    font-size: 1em;
+}
+.conversor-box input[type="number"] {
+    width: 60px;
+    background: #222;
+    color: #ffe066;
+    border: 1px solid #444;
+    border-radius: 5px;
+    padding: 2px 6px;
+    margin-left: 4px;
+}
+.conversor-box button {
+    margin-left: 10px;
+    padding: 4px 14px;
+    font-size: 0.97em;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #ffe066 60%, #fffbe0 100%);
+    color: #222;
+    font-weight: bold;
+    border: none;
+    box-shadow: 0 2px 8px #ffe06633;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+.conversor-box button:hover {
+    background: linear-gradient(90deg, #fffbe0 0%, #ffe066 100%);
+    box-shadow: 0 4px 16px #ffe06655;
+}
+.conversor-box #conv_resultado {
+    margin-top: 10px;
+    font-size: 1.08em;
+    color: #ffe066;
+    font-weight: bold;
+}
+.resultado {
+    font-size: 1.2em;
+}
+table {
+    background: #222;
+    border-radius: 8px;
+    margin: 0 auto;
+}
+th, td {
+    padding: 6px 12px;
+}
