@@ -33,6 +33,7 @@
     }
   </style>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  
 </head>
 </head>
 
@@ -279,28 +280,47 @@
     <i>El conversor de watts a soles me ayudó a entender cuánto cuesta dejar los aparatos encendidos. ¡Gracias!</i>
   </div>
 </div>
-<div class="medidas principal-box" style="max-width:520px; margin: 40px auto; text-align:left;">
-  <h3 style="color:#66e0ff;">Deja tu comentario</h3>
-  <textarea id="comentarioInput" placeholder="Escribe tu comentario aquí..." style="width:100%; height:60px; margin-bottom:10px;"></textarea>
-  
+<div id="comentariosFalsos" class="medidas principal-box" style="max-width:520px; margin: 32px auto 0 auto; text-align:left;">
+  <h3 style="color:#66e0ff; margin-top:0;">Comentarios de usuarios</h3>
+
+  <!-- Comentarios falsos -->
+  <div style="margin-bottom:18px;">
+    <b>María G.</b> <span style="color:#ffe066;">★★★★★</span><br>
+    <i>¡Me encantó la calculadora! Ahora sé exactamente cuánto gasto en electricidad cada mes. Súper útil y fácil de usar.</i>
+  </div>
+  <div style="margin-bottom:18px;">
+    <b>Carlos P.</b> <span style="color:#ffe066;">★★★★★</span><br>
+    <i>El gráfico es muy visual y me ayuda a comparar el consumo de cada mes. ¡Excelente herramienta para ahorrar energía!</i>
+  </div>
+  <div style="margin-bottom:18px;">
+    <b>Ana L.</b> <span style="color:#ffe066;">★★★★★</span><br>
+    <i>La animación del foquito roto es genial, me motiva a no gastar de más. ¡Muy educativa y divertida!</i>
+  </div>
+  <div style="margin-bottom:18px;">
+    <b>Profesor Luis</b> <span style="color:#ffe066;">★★★★★</span><br>
+    <i>El diseño es moderno y funciona perfecto en mi celular. ¡Recomiendo esta página a todos los colegios!</i>
+  </div>
+  <div style="margin-bottom:18px;">
+    <b>Sofía R.</b> <span style="color:#ffe066;">★★★★★</span><br>
+    <i>El conversor de watts a soles me ayudó a entender cuánto cuesta dejar los aparatos encendidos. ¡Gracias!</i>
+  </div>
+
+  <!-- Comentarios del usuario -->
+  <div id="comentariosReales"></div>
+
+  <!-- Formulario para agregar comentario -->
+  <h4 style="margin-top:25px;">Escribe tu comentario</h4>
+  <textarea id="comentarioInput" placeholder="Tu opinión..." style="width:100%; height:60px; margin-bottom:10px;"></textarea>
   <div style="margin-bottom:10px;">
     Calificación:
-    <span id="estrellas">
-      ★★★★★
-    </span>
+    <span id="estrellas"></span>
   </div>
-  
   <button onclick="guardarComentario()" style="padding:6px 12px; background:#66e0ff; color:white; border:none; border-radius:5px;">Enviar</button>
-
-  <div id="misComentarios" style="margin-top:20px;">
-    <h4 style="margin-bottom:8px;">Tus comentarios</h4>
-    <ul id="listaComentarios" style="list-style:none; padding:0;"></ul>
-  </div>
 </div>
+
 <script>
   let calificacionSeleccionada = 5;
 
-  // Poner estrellas interactivas
   const estrellas = document.getElementById("estrellas");
   estrellas.innerHTML = [...Array(5)].map((_, i) =>
     `<span style="cursor:pointer; font-size:20px;" onclick="seleccionarEstrellas(${i + 1})" id="estrella${i + 1}">★</span>`
@@ -332,19 +352,18 @@
   }
 
   function mostrarComentarios() {
-    const lista = document.getElementById("listaComentarios");
-    lista.innerHTML = "";
+    const contenedor = document.getElementById("comentariosReales");
+    contenedor.innerHTML = "";
     const comentarios = JSON.parse(localStorage.getItem("comentariosUsuario")) || [];
 
     comentarios.forEach(com => {
-      const li = document.createElement("li");
-      li.style.marginBottom = "12px";
-      li.innerHTML = `<span style="color:#ffe066;">${"★".repeat(com.estrellas)}${"☆".repeat(5 - com.estrellas)}</span><br><i>${com.texto}</i>`;
-      lista.appendChild(li);
+      const div = document.createElement("div");
+      div.style.marginBottom = "18px";
+      div.innerHTML = `<b>Tú</b> <span style="color:#ffe066;">${"★".repeat(com.estrellas)}${"☆".repeat(5 - com.estrellas)}</span><br><i>${com.texto}</i>`;
+      contenedor.appendChild(div);
     });
   }
 
-  // Mostrar comentarios al cargar
   window.onload = () => {
     seleccionarEstrellas(5);
     mostrarComentarios();
