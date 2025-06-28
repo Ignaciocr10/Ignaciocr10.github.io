@@ -264,3 +264,101 @@ document.getElementById('formulario').addEventListener('submit', function(e) {
         </table>
     `;
 });
+function validarEmail(email) {
+  // Valida que tenga letras antes y después del @ y un dominio
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+window.registrar = function() {
+  const email = document.getElementById("registroEmail").value.trim();
+  const password = document.getElementById("registroPassword").value.trim();
+  const nickname = document.getElementById("registroNickname").value.trim();
+  if (!email || !password || !nickname) {
+    document.getElementById('loginMensaje').innerText = "Completa todos los campos.";
+    return;
+  }
+  if (!validarEmail(email)) {
+    document.getElementById('loginMensaje').innerText = "Correo inválido.";
+    return;
+  }
+  // Aquí iría tu lógica de registro real (Firebase, etc.)
+  // Si todo sale bien:
+  document.getElementById('pantallaLogin').remove();
+  document.getElementById('contenidoWeb').style.display = 'block';
+};
+
+window.iniciarSesion = function() {
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value.trim();
+  if (!email || !password) {
+    document.getElementById('loginMensaje').innerText = "Completa todos los campos.";
+    return;
+  }
+  if (!validarEmail(email)) {
+    document.getElementById('loginMensaje').innerText = "Correo inválido.";
+    return;
+  }
+  // Aquí iría tu lógica de login real (Firebase, etc.)
+  // Si todo sale bien:
+  document.getElementById('pantallaLogin').remove();
+  document.getElementById('contenidoWeb').style.display = 'block';
+};
+function validarEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+window.registrar = function() {
+  const email = document.getElementById("registroEmail").value.trim();
+  const password = document.getElementById("registroPassword").value.trim();
+  const nickname = document.getElementById("registroNickname").value.trim();
+  if (!email || !password || !nickname) {
+    document.getElementById('loginMensaje').innerText = "Completa todos los campos.";
+    return;
+  }
+  if (!validarEmail(email)) {
+    document.getElementById('loginMensaje').innerText = "Correo inválido.";
+    return;
+  }
+  document.getElementById('pantallaLogin').remove();
+  document.getElementById('contenidoWeb').style.display = 'block';
+  mostrarSaludo(nickname);
+  localStorage.setItem('apodoUsuario', nickname);
+};
+
+window.iniciarSesion = function() {
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value.trim();
+  if (!email || !password) {
+    document.getElementById('loginMensaje').innerText = "Completa todos los campos.";
+    return;
+  }
+  if (!validarEmail(email)) {
+    document.getElementById('loginMensaje').innerText = "Correo inválido.";
+    return;
+  }
+  document.getElementById('pantallaLogin').remove();
+  document.getElementById('contenidoWeb').style.display = 'block';
+  // Si ya tienes apodo guardado, úsalo, si no, muestra "Hola usuario"
+  const apodo = localStorage.getItem('apodoUsuario') || 'usuario';
+  mostrarSaludo(apodo);
+};
+
+function mostrarSaludo(apodo) {
+  let saludo = document.getElementById('saludoUsuario');
+  if (!saludo) {
+    saludo = document.createElement('div');
+    saludo.id = 'saludoUsuario';
+    saludo.style.position = 'fixed';
+    saludo.style.top = '12px';
+    saludo.style.left = '18px';
+    saludo.style.background = '#222';
+    saludo.style.color = '#ffe066';
+    saludo.style.padding = '8px 18px';
+    saludo.style.borderRadius = '12px';
+    saludo.style.fontWeight = 'bold';
+    saludo.style.fontSize = '1.1em';
+    saludo.style.zIndex = '9999';
+    document.body.appendChild(saludo);
+  }
+  saludo.textContent = `Hola ${apodo}`;
+}
