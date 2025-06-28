@@ -38,13 +38,7 @@
 </head>
 
 <body>
-    <h2>Iniciar sesión o registrarse</h2>
-<input type="email" id="email" placeholder="Correo"><br>
-<input type="password" id="password" placeholder="Contraseña"><br>
-<button onclick="registrar()">Registrar</button>
-<button onclick="iniciarSesion()">Iniciar sesión</button>
-<button onclick="cerrarSesion()">Cerrar sesión</button>
-<p id="usuarioActual"></p>
+
    <div style="width:100%;display:flex;justify-content:flex-end;align-items:center;margin-bottom:10px;">
   <a href="Presentacion/index.html" style="text-decoration:none;" target="_blank" rel="noopener">
     <button style="
@@ -579,6 +573,22 @@ function mostrarHistorialDomestico() {
   </div>
   <button onclick="guardarComentario()" style="padding:6px 12px; background:#66e0ff; color:white; border:none; border-radius:5px;">Enviar</button>
 </div>
+<!-- Mostrar nombre arriba -->
+<div id="nombreUsuario"></div>
+
+<!-- Registro -->
+<input type="text" id="registroNickname" placeholder="Tu apodo">
+<input type="email" id="registroEmail" placeholder="Correo">
+<input type="password" id="registroPassword" placeholder="Contraseña">
+<button onclick="registrar()">Registrarse</button>
+
+<!-- Inicio de sesión -->
+<input type="email" id="loginEmail" placeholder="Correo">
+<input type="password" id="loginPassword" placeholder="Contraseña">
+<button onclick="iniciarSesion()">Iniciar sesión</button>
+
+<!-- Cierre de sesión -->
+<button onclick="cerrarSesion()">Cerrar sesión</button>
 
 <script>
   let calificacionSeleccionada = 5;
@@ -653,25 +663,60 @@ function mostrarHistorialDomestico() {
     }
   }
 </script>
-<script src="https://www.gstatic.com/firebasejs/11.9.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/11.9.1/firebase-auth-compat.js"></script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 
-<script>
   const firebaseConfig = {
     apiKey: "AIzaSyC0ebSlsM3bLOadzQCdWDyZWIZ16Vo_9JE",
     authDomain: "consumo-electricidad-a3035.firebaseapp.com",
     projectId: "consumo-electricidad-a3035",
-    storageBucket: "consumo-electricidad-a3035.appspot.com",
+    storageBucket: "consumo-electricidad-a3035.firebasestorage.app",
     messagingSenderId: "76534348604",
     appId: "1:76534348604:web:dc857b7d78549501c37c39",
     measurementId: "G-K5L8N3NR0N"
   };
 
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-</script>
-<script>
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
+  window.registrar = () => {
+    const email = document.getElementById("registroEmail").value;
+    const password = document.getElementById("registroPassword").value;
+    const nickname = document.getElementById("registroNickname").value;
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => updateProfile(userCredential.user, { displayName: nickname }))
+      .then(() => alert("Cuenta creada con éxito"))
+      .catch((error) => alert("Error: " + error.message));
+  };
+
+  window.iniciarSesion = () => {
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPassword").value;
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => alert("Sesión iniciada"))
+      .catch((error) => alert("Error: " + error.message));
+  };
+
+  window.cerrarSesion = () => {
+    signOut(auth).then(() => {
+      alert("Sesión cerrada");
+      document.getElementById("nombreUsuario").innerText = "";
+    });
+  };
+
+  onAuthStateChanged(auth, (user) => {
+    const div = document.getElementById("nombreUsuario");
+    if (user) {
+      div.innerText = "Hola, " + user.displayName;
+    } else {
+      div.innerText = "";
+    }
+  });
+</script>
+    <script>
   function registrar() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
@@ -718,8 +763,8 @@ function mostrarHistorialDomestico() {
     }
   });
 </script>
+
 </body>
 </html>
-
 
 
