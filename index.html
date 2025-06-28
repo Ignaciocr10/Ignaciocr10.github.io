@@ -38,6 +38,13 @@
 </head>
 
 <body>
+    <h2>Iniciar sesión o registrarse</h2>
+<input type="email" id="email" placeholder="Correo"><br>
+<input type="password" id="password" placeholder="Contraseña"><br>
+<button onclick="registrar()">Registrar</button>
+<button onclick="iniciarSesion()">Iniciar sesión</button>
+<button onclick="cerrarSesion()">Cerrar sesión</button>
+<p id="usuarioActual"></p>
    <div style="width:100%;display:flex;justify-content:flex-end;align-items:center;margin-bottom:10px;">
   <a href="Presentacion/index.html" style="text-decoration:none;" target="_blank" rel="noopener">
     <button style="
@@ -172,7 +179,7 @@
             </ol>
             <div style="font-size:0.98em; color:#ffe066; margin-top:10px;">¡Explora y aprende sobre el consumo eléctrico de tu escuela!</div>
         </div>
-              <!-- Reemplaza tu div de la calculadora por este bloque -->
+        <!-- Reemplaza tu div de la calculadora por este bloque -->
 <div id="calculadoraBox" class="medidas principal-box" style="min-width:400px; flex:2 1 0; transition: max-height 0.4s, opacity 0.3s;">
   <div id="barraCalculadora" onclick="toggleCalculadora()" style="background:linear-gradient(90deg,#ffe066 60%,#fffbe0 100%);color:#222;font-weight:bold;cursor:pointer;padding:10px 0 10px 18px;border-radius:10px 10px 10px 10px;box-shadow:0 2px 8px #ffe06633;margin-bottom:12px;display:none;">
     <span style="font-size:1.15em;">Calculadora Escolar</span>
@@ -245,6 +252,254 @@ function toggleCalculadora() {
 }
 // Inicializa minimizada en desktop si quieres:
 // window.onload = () => { toggleCalculadora(); };
+</script>
+    <!-- Agrega esto justo debajo del bloque de la calculadora escolar -->
+<div id="calculadoraDomesticaBox" class="medidas principal-box" style="min-width:400px; flex:2 1 0; transition: max-height 0.4s, opacity 0.3s; margin-top:18px;">
+  <div id="barraCalculadoraDomestica" onclick="toggleCalculadoraDomestica()" style="background:linear-gradient(90deg,#66e0ff 60%,#fffbe0 100%);color:#222;font-weight:bold;cursor:pointer;padding:10px 0 10px 18px;border-radius:10px 10px 10px 10px;box-shadow:0 2px 8px #66e0ff33;margin-bottom:12px;">
+    <span style="font-size:1.15em;">Calculadora Doméstica</span>
+    <span style="float:right;font-size:1.3em;padding-right:18px;">&#9654;</span>
+  </div>
+  <div id="contenidoCalculadoraDomestica" style="display:none;">
+    <h2>Calculadora de Consumo Doméstico</h2>
+    <form id="formularioDomestico">
+      <div class="form-row">
+        <label for="refri">Refrigeradora (150W):</label>
+        <input type="number" min="0" value="1" id="refri">
+        <span>Horas/día:</span>
+        <input class="horas-input" type="number" min="0" max="24" value="24" id="horas_refri">
+      </div>
+      <div class="form-row">
+        <label for="terma">Terma eléctrica (1200W):</label>
+        <input type="number" min="0" value="1" id="terma">
+        <span>Horas/día:</span>
+        <input class="horas-input" type="number" min="0" max="24" value="1" id="horas_terma">
+      </div>
+      <div class="form-row">
+        <label for="lavadora">Lavadora (500W):</label>
+        <input type="number" min="0" value="1" id="lavadora">
+        <span>Horas/día:</span>
+        <input class="horas-input" type="number" min="0" max="24" value="0.5" id="horas_lavadora">
+      </div>
+      <div class="form-row">
+        <label for="lavavajillas">Lavavajillas (1200W):</label>
+        <input type="number" min="0" value="0" id="lavavajillas">
+        <span>Horas/día:</span>
+        <input class="horas-input" type="number" min="0" max="24" value="0" id="horas_lavavajillas">
+      </div>
+      <div class="form-row">
+        <label for="tele">Televisor (80W):</label>
+        <input type="number" min="0" value="2" id="tele">
+        <span>Horas/día:</span>
+        <input class="horas-input" type="number" min="0" max="24" value="4" id="horas_tele">
+      </div>
+      <div class="form-row">
+        <label for="focos_dom">Focos (10W c/u):</label>
+        <input type="number" min="0" value="8" id="focos_dom">
+        <span>Horas/día:</span>
+        <input class="horas-input" type="number" min="0" max="24" value="6" id="horas_focos_dom">
+      </div>
+      <div class="form-row">
+        <label for="calefactor">Calefactor (1500W):</label>
+        <input type="number" min="0" value="0" id="calefactor">
+        <span>Horas/día:</span>
+        <input class="horas-input" type="number" min="0" max="24" value="0" id="horas_calefactor">
+      </div>
+      <div class="form-row">
+        <label for="computadoras_dom">Computadoras (100W c/u):</label>
+        <input type="number" min="0" value="2" id="computadoras_dom">
+        <span>Horas/día:</span>
+        <input class="horas-input" type="number" min="0" max="24" value="5" id="horas_computadoras_dom">
+      </div>
+      <div class="form-row">
+        <label for="impresoras_dom">Impresoras (50W c/u):</label>
+        <input type="number" min="0" value="1" id="impresoras_dom">
+        <span>Horas/día:</span>
+        <input class="horas-input" type="number" min="0" max="24" value="1" id="horas_impresoras_dom">
+      </div>
+      <div class="form-row">
+        <label for="cargadores">Cargadores (10W c/u):</label>
+        <input type="number" min="0" value="4" id="cargadores">
+        <span>Horas/día:</span>
+        <input class="horas-input" type="number" min="0" max="24" value="3" id="horas_cargadores">
+      </div>
+      <div class="form-row">
+        <label for="modem">Módem de internet (12W):</label>
+        <input type="number" min="0" value="1" id="modem">
+        <span>Horas/día:</span>
+        <input class="horas-input" type="number" min="0" max="24" value="24" id="horas_modem">
+      </div>
+      <button type="submit">Calcular</button>
+    </form>
+    <div style="text-align:right;margin-top:8px;">
+      <button type="button" onclick="toggleCalculadoraDomestica()" style="background:#66e0ff;color:#222;font-weight:bold;border-radius:8px;padding:4px 18px;font-size:1em;box-shadow:0 2px 8px #66e0ff33;border:none;cursor:pointer;">Ocultar</button>
+    </div>
+    <div class="resultado" id="resultadoDomestico"></div>
+  </div>
+</div>
+
+<script>
+// --- Lógica de alternancia y borrado de historial ---
+let historialDomestico = [];
+let historialEscolar = [];
+
+function toggleCalculadora() {
+  const box = document.getElementById('calculadoraBox');
+  const barra = document.getElementById('barraCalculadora');
+  const contenido = document.getElementById('contenidoCalculadora');
+  const domBox = document.getElementById('calculadoraDomesticaBox');
+  const domBarra = document.getElementById('barraCalculadoraDomestica');
+  const domContenido = document.getElementById('contenidoCalculadoraDomestica');
+
+  // Si la doméstica está abierta, ciérrala y borra su historial
+  if (domContenido && domContenido.style.display !== 'none') {
+    domContenido.style.display = 'none';
+    domBarra.style.display = '';
+    domBox.style.maxHeight = '60px';
+    domBox.style.opacity = '0.95';
+    localStorage.removeItem('historialDomestico');
+    document.getElementById('resultadoDomestico').innerHTML = '';
+  }
+
+  if (contenido.style.display === 'none') {
+    contenido.style.display = '';
+    barra.style.display = 'none';
+    box.style.maxHeight = '';
+    box.style.opacity = '1';
+    // Recuperar historial escolar
+    let historial = JSON.parse(localStorage.getItem('historialConsumo')) || [];
+    mostrarHistorial(historial);
+  } else {
+    contenido.style.display = 'none';
+    barra.style.display = '';
+    box.style.maxHeight = '60px';
+    box.style.opacity = '0.95';
+    // Borrar historial escolar
+    localStorage.removeItem('historialConsumo');
+    mostrarHistorial([]);
+  }
+}
+
+function toggleCalculadoraDomestica() {
+  const box = document.getElementById('calculadoraDomesticaBox');
+  const barra = document.getElementById('barraCalculadoraDomestica');
+  const contenido = document.getElementById('contenidoCalculadoraDomestica');
+  const escBox = document.getElementById('calculadoraBox');
+  const escBarra = document.getElementById('barraCalculadora');
+  const escContenido = document.getElementById('contenidoCalculadora');
+
+  // Si la escolar está abierta, ciérrala y borra su historial
+  if (escContenido && escContenido.style.display !== 'none') {
+    escContenido.style.display = 'none';
+    escBarra.style.display = '';
+    escBox.style.maxHeight = '60px';
+    escBox.style.opacity = '0.95';
+    localStorage.removeItem('historialConsumo');
+    mostrarHistorial([]);
+  }
+
+  if (contenido.style.display === 'none') {
+    contenido.style.display = '';
+    barra.style.display = 'none';
+    box.style.maxHeight = '';
+    box.style.opacity = '1';
+    // Recuperar historial doméstico
+    mostrarHistorialDomestico();
+  } else {
+    contenido.style.display = 'none';
+    barra.style.display = '';
+    box.style.maxHeight = '60px';
+    box.style.opacity = '0.95';
+    // Borrar historial doméstico
+    localStorage.removeItem('historialDomestico');
+    document.getElementById('resultadoDomestico').innerHTML = '';
+  }
+}
+
+// --- Lógica de la calculadora doméstica ---
+document.getElementById('formularioDomestico').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const DIAS_MES = 30;
+  const PRECIO_KWH = 0.7;
+
+  const refri = parseInt(document.getElementById('refri').value) || 0;
+  const horas_refri = parseFloat(document.getElementById('horas_refri').value) || 0;
+  const terma = parseInt(document.getElementById('terma').value) || 0;
+  const horas_terma = parseFloat(document.getElementById('horas_terma').value) || 0;
+  const lavadora = parseInt(document.getElementById('lavadora').value) || 0;
+  const horas_lavadora = parseFloat(document.getElementById('horas_lavadora').value) || 0;
+  const lavavajillas = parseInt(document.getElementById('lavavajillas').value) || 0;
+  const horas_lavavajillas = parseFloat(document.getElementById('horas_lavavajillas').value) || 0;
+  const tele = parseInt(document.getElementById('tele').value) || 0;
+  const horas_tele = parseFloat(document.getElementById('horas_tele').value) || 0;
+  const focos = parseInt(document.getElementById('focos_dom').value) || 0;
+  const horas_focos = parseFloat(document.getElementById('horas_focos_dom').value) || 0;
+  const calefactor = parseInt(document.getElementById('calefactor').value) || 0;
+  const horas_calefactor = parseFloat(document.getElementById('horas_calefactor').value) || 0;
+  const computadoras = parseInt(document.getElementById('computadoras_dom').value) || 0;
+  const horas_computadoras = parseFloat(document.getElementById('horas_computadoras_dom').value) || 0;
+  const impresoras = parseInt(document.getElementById('impresoras_dom').value) || 0;
+  const horas_impresoras = parseFloat(document.getElementById('horas_impresoras_dom').value) || 0;
+  const cargadores = parseInt(document.getElementById('cargadores').value) || 0;
+  const horas_cargadores = parseFloat(document.getElementById('horas_cargadores').value) || 0;
+  const modem = parseInt(document.getElementById('modem').value) || 0;
+  const horas_modem = parseFloat(document.getElementById('horas_modem').value) || 0;
+
+  // Consumos
+  const consumoRefri = refri * 150 * horas_refri * DIAS_MES / 1000;
+  const consumoTerma = terma * 1200 * horas_terma * DIAS_MES / 1000;
+  const consumoLavadora = lavadora * 500 * horas_lavadora * DIAS_MES / 1000;
+  const consumoLavavajillas = lavavajillas * 1200 * horas_lavavajillas * DIAS_MES / 1000;
+  const consumoTele = tele * 80 * horas_tele * DIAS_MES / 1000;
+  const consumoFocos = focos * 10 * horas_focos * DIAS_MES / 1000;
+  const consumoCalefactor = calefactor * 1500 * horas_calefactor * DIAS_MES / 1000;
+  const consumoComputadoras = computadoras * 100 * horas_computadoras * DIAS_MES / 1000;
+  const consumoImpresoras = impresoras * 50 * horas_impresoras * DIAS_MES / 1000;
+  const consumoCargadores = cargadores * 10 * horas_cargadores * DIAS_MES / 1000;
+  const consumoModem = modem * 12 * horas_modem * DIAS_MES / 1000;
+
+  const consumoTotal = consumoRefri + consumoTerma + consumoLavadora + consumoLavavajillas + consumoTele + consumoFocos + consumoCalefactor + consumoComputadoras + consumoImpresoras + consumoCargadores + consumoModem;
+  const costoTotal = consumoTotal * PRECIO_KWH;
+
+  // Guardar historial doméstico
+  let historial = JSON.parse(localStorage.getItem('historialDomestico')) || [];
+  historial.push({
+    fecha: new Date().toLocaleDateString(),
+    kwh: consumoTotal.toFixed(2),
+    costo: costoTotal.toFixed(2)
+  });
+  localStorage.setItem('historialDomestico', JSON.stringify(historial));
+
+  mostrarHistorialDomestico();
+
+  document.getElementById('resultadoDomestico').innerHTML = `
+    <strong>Consumo mensual estimado:</strong> ${consumoTotal.toFixed(2)} kWh<br>
+    <strong>Costo mensual estimado:</strong> S/ ${costoTotal.toFixed(2)}<br><br>
+    <table style="margin:0 auto; background:#181818; color:#66e0ff; border-radius:8px; font-size:1.05em;">
+      <tr><th style='color:#fff;'>Aparato</th><th style='color:#fff;'>Consumo (kWh)</th><th style='color:#fff;'>Costo (S/)</th></tr>
+      <tr><td>Refrigeradora</td><td>${consumoRefri.toFixed(2)}</td><td>${(consumoRefri*PRECIO_KWH).toFixed(2)}</td></tr>
+      <tr><td>Terma eléctrica</td><td>${consumoTerma.toFixed(2)}</td><td>${(consumoTerma*PRECIO_KWH).toFixed(2)}</td></tr>
+      <tr><td>Lavadora</td><td>${consumoLavadora.toFixed(2)}</td><td>${(consumoLavadora*PRECIO_KWH).toFixed(2)}</td></tr>
+      <tr><td>Lavavajillas</td><td>${consumoLavavajillas.toFixed(2)}</td><td>${(consumoLavavajillas*PRECIO_KWH).toFixed(2)}</td></tr>
+      <tr><td>Televisor</td><td>${consumoTele.toFixed(2)}</td><td>${(consumoTele*PRECIO_KWH).toFixed(2)}</td></tr>
+      <tr><td>Focos</td><td>${consumoFocos.toFixed(2)}</td><td>${(consumoFocos*PRECIO_KWH).toFixed(2)}</td></tr>
+      <tr><td>Calefactor</td><td>${consumoCalefactor.toFixed(2)}</td><td>${(consumoCalefactor*PRECIO_KWH).toFixed(2)}</td></tr>
+      <tr><td>Computadoras</td><td>${consumoComputadoras.toFixed(2)}</td><td>${(consumoComputadoras*PRECIO_KWH).toFixed(2)}</td></tr>
+      <tr><td>Impresoras</td><td>${consumoImpresoras.toFixed(2)}</td><td>${(consumoImpresoras*PRECIO_KWH).toFixed(2)}</td></tr>
+      <tr><td>Cargadores</td><td>${consumoCargadores.toFixed(2)}</td><td>${(consumoCargadores*PRECIO_KWH).toFixed(2)}</td></tr>
+      <tr><td>Módem</td><td>${consumoModem.toFixed(2)}</td><td>${(consumoModem*PRECIO_KWH).toFixed(2)}</td></tr>
+    </table>
+  `;
+});
+
+function mostrarHistorialDomestico() {
+  let historial = JSON.parse(localStorage.getItem('historialDomestico')) || [];
+  let html = "<h3>Historial de Consumo Doméstico</h3><table style='width:100%;color:#66e0ff;text-align:center'><tr><th>Fecha</th><th>Consumo (kWh)</th><th>Costo (S/)</th></tr>";
+  historial.forEach(item => {
+    html += `<tr><td>${item.fecha}</td><td>${item.kwh}</td><td>${item.costo}</td></tr>`;
+  });
+  html += "</table>";
+  document.getElementById('resultadoDomestico').innerHTML = html;
+}
 </script>
         <div class="medidas secundario-box" style="min-width:260px; max-width:320px; text-align:left; flex:1 1 0;">
             <h3 style="margin-top:0; color:#ffe066;">¿Cómo se calcula el consumo?</h3>
@@ -398,6 +653,73 @@ function toggleCalculadora() {
     }
   }
 </script>
+<script src="https://www.gstatic.com/firebasejs/11.9.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.9.1/firebase-auth-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyC0ebSlsM3bLOadzQCdWDyZWIZ16Vo_9JE",
+    authDomain: "consumo-electricidad-a3035.firebaseapp.com",
+    projectId: "consumo-electricidad-a3035",
+    storageBucket: "consumo-electricidad-a3035.appspot.com",
+    messagingSenderId: "76534348604",
+    appId: "1:76534348604:web:dc857b7d78549501c37c39",
+    measurementId: "G-K5L8N3NR0N"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+</script>
+<script>
+
+  function registrar() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    auth.createUserWithEmailAndPassword(email, password)
+      .then(userCredential => {
+        alert("Cuenta registrada: " + userCredential.user.email);
+      })
+      .catch(error => {
+        alert("Error al registrar: " + error.message);
+      });
+  }
+
+  function iniciarSesion() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    auth.signInWithEmailAndPassword(email, password)
+      .then(userCredential => {
+        alert("Sesión iniciada: " + userCredential.user.email);
+      })
+      .catch(error => {
+        alert("Error al iniciar sesión: " + error.message);
+      });
+  }
+
+  function cerrarSesion() {
+    auth.signOut()
+      .then(() => {
+        alert("Sesión cerrada");
+      })
+      .catch(error => {
+        alert("Error al cerrar sesión: " + error.message);
+      });
+  }
+
+  // Mostrar el nombre del usuario en la esquina superior izquierda
+  auth.onAuthStateChanged(user => {
+    const userDisplay = document.getElementById("usuarioActual");
+    if (user) {
+      userDisplay.textContent = "Usuario: " + user.email;
+    } else {
+      userDisplay.textContent = "No hay sesión activa";
+    }
+  });
+</script>
 </body>
 </html>
+
+
 
