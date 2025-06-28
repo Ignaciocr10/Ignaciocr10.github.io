@@ -344,8 +344,28 @@
     mostrarComentarios();
   };
 </script>
-  <a href="https://mail.google.com/mail/u/0/#inbox/FMfcgzQbfxbzBdLLrWLhgmKhxWFpFrpq?compose=CllgCJZbhvHwQkgcmwGVqqdbCBRZdngZzcQZwjkQXhWlvdQVgbGwCvfBScCFWDvkCPLWGpvqNnB" target="_blank" title="Escríbeme por Gmail">
-  <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Gmail" style="width:32px; height:32px;">
-</a>
+<div class="iconos-sociales">
+  <a href="https://mail.google.com/mail/u/0/#inbox/FMfcgzQbfxbzBdLLrWLhgmKhxWFpFrpq?compose=CllgCJZbhvHwQkgcmwGVqqdbCBRZdngZzcQZwjkQXhWlvdQVgbGwCvfBScCFWDvkCPLWGpvqNnB" target="_blank" title="Enviar correo">
+    <img src="https://cdn-icons-png.flaticon.com/512/281/281769.png" alt="Gmail" class="icono-social">
+  </a>
+  <a href="https://github.com/Ignaciocr10" target="_blank" title="Mi perfil en GitHub">
+    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v10/icons/github.svg" alt="GitHub" class="icono-social github-icon">
+  </a>
+</div>
+<script>
+  let modo = 'normal';
+
+  function cambiarFondo() {
+    const body = document.body;
+    if (modo === 'normal') {
+      body.classList.add('eco');
+      modo = 'eco';
+    } else {
+      body.classList.remove('eco');
+      modo = 'normal';
+    }
+  }
+</script>
 </body>
 </html>
+
