@@ -38,6 +38,102 @@
 </head>
 
 <body>
+  <!-- Agrega esto justo DESPUÉS de la etiqueta <body> y ANTES de todo el contenido principal -->
+<div id="pantallaLogin" style="position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:#111c;backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;">
+  <div style="background:#222;padding:38px 32px 28px 32px;border-radius:18px;box-shadow:0 8px 32px #ffe06655,0 4px 18px #66e0ff33;max-width:350px;width:95vw;text-align:center;">
+    <h2 style="color:#66e0ff;margin-top:0;">Bienvenido</h2>
+    <div id="loginForms">
+      <div id="loginForm">
+        <input type="email" id="loginEmail" placeholder="Correo" style="width:90%;margin-bottom:10px;padding:8px;border-radius:6px;border:1px solid #444;"><br>
+        <input type="password" id="loginPassword" placeholder="Contraseña" style="width:90%;margin-bottom:14px;padding:8px;border-radius:6px;border:1px solid #444;"><br>
+        <button onclick="iniciarSesion()" style="width:100%;margin-bottom:10px;">Iniciar sesión</button>
+        <div style="margin-bottom:10px;">
+          ¿No tienes cuenta? <a href="#" style="color:#ffe066;" onclick="mostrarRegistro(event)">Regístrate</a>
+        </div>
+      </div>
+      <div id="registroForm" style="display:none;">
+        <input type="text" id="registroNickname" placeholder="Tu apodo" style="width:90%;margin-bottom:10px;padding:8px;border-radius:6px;border:1px solid #444;"><br>
+        <input type="email" id="registroEmail" placeholder="Correo" style="width:90%;margin-bottom:10px;padding:8px;border-radius:6px;border:1px solid #444;"><br>
+        <input type="password" id="registroPassword" placeholder="Contraseña" style="width:90%;margin-bottom:14px;padding:8px;border-radius:6px;border:1px solid #444;"><br>
+        <button onclick="registrar()" style="width:100%;margin-bottom:10px;">Registrarse</button>
+        <div style="margin-bottom:10px;">
+          ¿Ya tienes cuenta? <a href="#" style="color:#ffe066;" onclick="mostrarLogin(event)">Inicia sesión</a>
+        </div>
+      </div>
+    </div>
+    <div id="loginMensaje" style="color:#ffe066;margin-top:10px;min-height:22px;"></div>
+  </div>
+</div>
+
+
+
+
+<script>
+function mostrarRegistro(e) {
+  e.preventDefault();
+  document.getElementById('loginForm').style.display = 'none';
+  document.getElementById('registroForm').style.display = '';
+}
+function mostrarLogin(e) {
+  e.preventDefault();
+  document.getElementById('loginForm').style.display = '';
+  document.getElementById('registroForm').style.display = 'none';
+}
+
+// Oculta la pantalla de login si el usuario está autenticado
+function ocultarPantallaLogin() {
+  document.getElementById('pantallaLogin').style.display = 'none';
+  document.getElementById('contenidoWeb').style.display = 'block';
+}
+
+// Firebase auth hooks
+window.registrar = function() {
+  const email = document.getElementById("registroEmail").value;
+  const password = document.getElementById("registroPassword").value;
+  const nickname = document.getElementById("registroNickname").value;
+  if (!email || !password || !nickname) {
+    document.getElementById('loginMensaje').innerText = "Completa todos los campos.";
+    return;
+  }
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => updateProfile(userCredential.user, { displayName: nickname }))
+    .then(() => {
+      document.getElementById('loginMensaje').innerText = "Cuenta creada con éxito. Inicia sesión.";
+      setTimeout(ocultarPantallaLogin, 800);
+    })
+    .catch((error) => {
+      document.getElementById('loginMensaje').innerText = "Error: " + error.message;
+    });
+};
+
+window.iniciarSesion = function() {
+  const email = document.getElementById("loginEmail").value;
+  const password = document.getElementById("loginPassword").value;
+  if (!email || !password) {
+    document.getElementById('loginMensaje').innerText = "Completa todos los campos.";
+    return;
+  }
+  signInWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      document.getElementById('loginMensaje').innerText = "Sesión iniciada";
+      setTimeout(ocultarPantallaLogin, 800);
+    })
+    .catch((error) => {
+      document.getElementById('loginMensaje').innerText = "Error: " + error.message;
+    });
+};
+
+// Oculta la pantalla si ya hay sesión iniciada
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    ocultarPantallaLogin();
+  } else {
+    document.getElementById('pantallaLogin').style.display = 'flex';
+    document.getElementById('contenidoWeb').style.display = 'none';
+  }
+});
+</script>
+<div id="contenidoWeb" style="display: none;"></div>
 
    <div style="width:100%;display:flex;justify-content:flex-end;align-items:center;margin-bottom:10px;">
   <a href="Presentacion/index.html" style="text-decoration:none;" target="_blank" rel="noopener">
@@ -67,6 +163,7 @@
     </button>
   </a>
 </div>
+
     <div class="foco" id="focoContainer">
         <!-- SVG de foquito normal -->
         <svg id="focoNormal" width="120" height="180" viewBox="0 0 120 180">
@@ -331,6 +428,8 @@ function toggleCalculadora() {
   </div>
 </div>
 
+
+
 <script>
 // --- Lógica de alternancia y borrado de historial ---
 let historialDomestico = [];
@@ -576,19 +675,6 @@ function mostrarHistorialDomestico() {
 <!-- Mostrar nombre arriba -->
 <div id="nombreUsuario"></div>
 
-<!-- Registro -->
-<input type="text" id="registroNickname" placeholder="Tu apodo">
-<input type="email" id="registroEmail" placeholder="Correo">
-<input type="password" id="registroPassword" placeholder="Contraseña">
-<button onclick="registrar()">Registrarse</button>
-
-<!-- Inicio de sesión -->
-<input type="email" id="loginEmail" placeholder="Correo">
-<input type="password" id="loginPassword" placeholder="Contraseña">
-<button onclick="iniciarSesion()">Iniciar sesión</button>
-
-<!-- Cierre de sesión -->
-<button onclick="cerrarSesion()">Cerrar sesión</button>
 
 <script>
   let calificacionSeleccionada = 5;
@@ -649,122 +735,9 @@ function mostrarHistorialDomestico() {
     <img src="https://cdn.jsdelivr.net/npm/simple-icons@v10/icons/github.svg" alt="GitHub" class="icono-social github-icon">
   </a>
 </div>
-<script>
-  let modo = 'normal';
 
-  function cambiarFondo() {
-    const body = document.body;
-    if (modo === 'normal') {
-      body.classList.add('eco');
-      modo = 'eco';
-    } else {
-      body.classList.remove('eco');
-      modo = 'normal';
-    }
-  }
-</script>
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyC0ebSlsM3bLOadzQCdWDyZWIZ16Vo_9JE",
-    authDomain: "consumo-electricidad-a3035.firebaseapp.com",
-    projectId: "consumo-electricidad-a3035",
-    storageBucket: "consumo-electricidad-a3035.firebasestorage.app",
-    messagingSenderId: "76534348604",
-    appId: "1:76534348604:web:dc857b7d78549501c37c39",
-    measurementId: "G-K5L8N3NR0N"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-  window.registrar = () => {
-    const email = document.getElementById("registroEmail").value;
-    const password = document.getElementById("registroPassword").value;
-    const nickname = document.getElementById("registroNickname").value;
-
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => updateProfile(userCredential.user, { displayName: nickname }))
-      .then(() => alert("Cuenta creada con éxito"))
-      .catch((error) => alert("Error: " + error.message));
-  };
-
-  window.iniciarSesion = () => {
-    const email = document.getElementById("loginEmail").value;
-    const password = document.getElementById("loginPassword").value;
-
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => alert("Sesión iniciada"))
-      .catch((error) => alert("Error: " + error.message));
-  };
-
-  window.cerrarSesion = () => {
-    signOut(auth).then(() => {
-      alert("Sesión cerrada");
-      document.getElementById("nombreUsuario").innerText = "";
-    });
-  };
-
-  onAuthStateChanged(auth, (user) => {
-    const div = document.getElementById("nombreUsuario");
-    if (user) {
-      div.innerText = "Hola, " + user.displayName;
-    } else {
-      div.innerText = "";
-    }
-  });
-</script>
-    <script>
-  function registrar() {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
-    auth.createUserWithEmailAndPassword(email, password)
-      .then(userCredential => {
-        alert("Cuenta registrada: " + userCredential.user.email);
-      })
-      .catch(error => {
-        alert("Error al registrar: " + error.message);
-      });
-  }
-
-  function iniciarSesion() {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
-    auth.signInWithEmailAndPassword(email, password)
-      .then(userCredential => {
-        alert("Sesión iniciada: " + userCredential.user.email);
-      })
-      .catch(error => {
-        alert("Error al iniciar sesión: " + error.message);
-      });
-  }
-
-  function cerrarSesion() {
-    auth.signOut()
-      .then(() => {
-        alert("Sesión cerrada");
-      })
-      .catch(error => {
-        alert("Error al cerrar sesión: " + error.message);
-      });
-  }
-
-  // Mostrar el nombre del usuario en la esquina superior izquierda
-  auth.onAuthStateChanged(user => {
-    const userDisplay = document.getElementById("usuarioActual");
-    if (user) {
-      userDisplay.textContent = "Usuario: " + user.email;
-    } else {
-      userDisplay.textContent = "No hay sesión activa";
-    }
-  });
-</script>
-
+    
+</div>
+</div>
 </body>
 </html>
-
-
