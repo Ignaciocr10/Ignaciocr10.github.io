@@ -59,6 +59,9 @@
         <div style="margin-bottom:10px;">
           ¿Ya tienes cuenta? <a href="#" style="color:#ffe066;" onclick="mostrarLogin(event)">Inicia sesión</a>
         </div>
+        <div style="margin-bottom:10px; text-align:center;">
+  <a href="#" style="color:#66e0ff; font-weight:bold;" onclick="entrarSinCuenta(event)">Entrar sin cuenta</a>
+</div>
       </div>
     </div>
     <div id="loginMensaje" style="color:#ffe066;margin-top:10px;min-height:22px;"></div>
@@ -78,6 +81,12 @@ function mostrarLogin(e) {
   e.preventDefault();
   document.getElementById('loginForm').style.display = '';
   document.getElementById('registroForm').style.display = 'none';
+}
+function entrarSinCuenta(e) {
+  e.preventDefault();
+  document.getElementById('pantallaLogin').style.display = 'none';
+  document.getElementById('contenidoWeb').style.display = 'block';
+  window.entrandoSinCuenta = true; // Bandera global
 }
 
 // Oculta la pantalla de login si el usuario está autenticado
@@ -512,7 +521,7 @@ function toggleCalculadoraDomestica() {
 document.getElementById('formularioDomestico').addEventListener('submit', function(e) {
   e.preventDefault();
   const DIAS_MES = 30;
-  const PRECIO_KWH = 0.7;
+  const PRECIO_KWH = 0.6589;
 
   const refri = parseInt(document.getElementById('refri').value) || 0;
   const horas_refri = parseFloat(document.getElementById('horas_refri').value) || 0;
@@ -600,7 +609,7 @@ function mostrarHistorialDomestico() {
                 <li>Para cada aparato: <br><b style="color:#ffe066;">Cantidad × Potencia (W) × Horas/día × Días/mes</b></li>
                 <li>Se suman todos los consumos y se divide entre 1000 para pasar de Wh a <b style="color:#ffe066;">kWh</b>.</li>
                 <li>El costo mensual es: <b style="color:#ffe066;">Consumo total (kWh) × Precio por kWh</b></li>
-                <li>En este sistema: <b style="color:#ffe066;">Precio por kWh = S/ 0.70</b> y <b style="color:#ffe066;">Días/mes = 22</b></li>
+                <li>En este sistema: <b style="color:#ffe066;">Precio por kWh = S/ 0.6589</b> y <b style="color:#ffe066;">Días/mes = 30</b></li>
             </ol>
             <hr style="border:0;border-top:1px solid #444; margin: 18px 0 14px 0;">
             <h3 style="color:#ffe066;">Conversor de Watts a Soles</h3>
@@ -652,8 +661,8 @@ function mostrarHistorialDomestico() {
     <i>La animación del foquito roto es genial, me motiva a no gastar de más. ¡Muy educativa y divertida!</i>
   </div>
   <div style="margin-bottom:18px;">
-    <b>Luigi</b> <span style="color:#ffe066;">★★★★★</span><br>
-    <i>Recomiendo mucho está página es muy funcional y eficiente!</i>
+    <b>Profesor Luis</b> <span style="color:#ffe066;">★★★★★</span><br>
+    <i>El diseño es moderno y funciona perfecto en mi celular. ¡Recomiendo esta página a todos los colegios!</i>
   </div>
   <div style="margin-bottom:18px;">
     <b>Gerard</b> <span style="color:#ffe066;">★★★★★</span><br>
@@ -692,23 +701,28 @@ function mostrarHistorialDomestico() {
   }
 
   function guardarComentario() {
-    const texto = document.getElementById("comentarioInput").value.trim();
-    if (texto === "") return;
-
-    const nuevo = {
-      texto: texto,
-      estrellas: calificacionSeleccionada
-    };
-
-    let comentarios = JSON.parse(localStorage.getItem("comentariosUsuario")) || [];
-    comentarios.push(nuevo);
-    localStorage.setItem("comentariosUsuario", JSON.stringify(comentarios));
-
-    document.getElementById("comentarioInput").value = "";
-    seleccionarEstrellas(5);
-    mostrarComentarios();
+  // Si el usuario entró sin cuenta, no puede comentar
+  if (window.entrandoSinCuenta) {
+    alert("Debes iniciar sesión o registrarte para comentar.");
+    return;
   }
 
+  const texto = document.getElementById("comentarioInput").value.trim();
+  if (texto === "") return;
+
+  const nuevo = {
+    texto: texto,
+    estrellas: calificacionSeleccionada
+  };
+
+  let comentarios = JSON.parse(localStorage.getItem("comentariosUsuario")) || [];
+  comentarios.push(nuevo);
+  localStorage.setItem("comentariosUsuario", JSON.stringify(comentarios));
+
+  document.getElementById("comentarioInput").value = "";
+  seleccionarEstrellas(5);
+  mostrarComentarios();
+}
   function mostrarComentarios() {
     const contenedor = document.getElementById("comentariosReales");
     contenedor.innerHTML = "";
