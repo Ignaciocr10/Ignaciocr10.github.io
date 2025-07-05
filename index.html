@@ -39,6 +39,46 @@
 
 <body>
   <!-- Agrega esto justo DESPUÉS de la etiqueta <body> y ANTES de todo el contenido principal -->
+<div id="pantallaCodigo" style="position:fixed;z-index:10000;top:0;left:0;width:100vw;height:100vh;background:#111c;backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;">
+  <div style="background:#222;padding:38px 32px 28px 32px;border-radius:18px;box-shadow:0 8px 32px #ffe06655,0 4px 18px #66e0ff33;max-width:350px;width:95vw;text-align:center;position:relative;">
+    <h2 style="color:#66e0ff;margin-top:0;">Código de Balanza</h2>
+    <input type="password" id="inputCodigoBalanza" placeholder="Ingresa el código" style="width:90%;margin-bottom:16px;padding:8px;border-radius:6px;border:1px solid #444;"><br>
+    <button onclick="verificarCodigoBalanza()" style="width:100%;margin-bottom:10px;">Entrar</button>
+    <div id="mensajeCodigoBalanza" style="color:#ffe066;min-height:22px;margin-bottom:10px;"></div>
+    <div style="position:absolute;bottom:12px;right:18px;">
+      <a href="#" style="color:#66e0ff; font-weight:bold;font-size:0.98em;" onclick="entrarSinCodigo(event)">Entrar sin código</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Cambia este código por el que tú quieras
+  const CODIGO_BALANZA = "12345";
+
+  function verificarCodigoBalanza() {
+    const codigo = document.getElementById("inputCodigoBalanza").value.trim();
+    if (codigo === CODIGO_BALANZA) {
+      document.getElementById('pantallaCodigo').style.display = 'none';
+      document.getElementById('pantallaLogin').style.display = 'flex';
+    } else {
+      document.getElementById('mensajeCodigoBalanza').innerText = "Código incorrecto.";
+    }
+  }
+
+  function entrarSinCodigo(e) {
+    e.preventDefault();
+    document.getElementById('pantallaCodigo').style.display = 'none';
+    document.getElementById('pantallaLogin').style.display = 'flex';
+  }
+
+  // Oculta todo al inicio excepto la pantalla de código
+  window.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('pantallaCodigo').style.display = 'flex';
+    document.getElementById('pantallaLogin').style.display = 'none';
+    document.getElementById('contenidoWeb').style.display = 'none';
+  });
+</script>
+  <!-- Agrega esto justo DESPUÉS de la etiqueta <body> y ANTES de todo el contenido principal -->
 <div id="pantallaLogin" style="position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:#111c;backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;">
   <div style="background:#222;padding:38px 32px 28px 32px;border-radius:18px;box-shadow:0 8px 32px #ffe06655,0 4px 18px #66e0ff33;max-width:350px;width:95vw;text-align:center;">
     <h2 style="color:#66e0ff;margin-top:0;">Bienvenido</h2>
@@ -646,6 +686,49 @@ function mostrarHistorialDomestico() {
 
 <div id="comentariosFalsos" class="medidas principal-box" style="max-width:520px; margin: 32px auto 0 auto; text-align:left;">
   <h3 style="color:#66e0ff; margin-top:0;">Comentarios de usuarios</h3>
+<div id="barraFuncionesBalanza" onclick="toggleFuncionesBalanza()" style="background:linear-gradient(90deg,#ffe066 60%,#fffbe0 100%);color:#222;font-weight:bold;cursor:pointer;padding:10px 0 10px 18px;border-radius:10px;box-shadow:0 2px 8px #ffe06633;margin:32px auto 12px auto;max-width:520px;">
+  <span style="font-size:1.15em;">Funciones de Balanza</span>
+  <span style="float:right;font-size:1.3em;padding-right:18px;">&#9654;</span>
+</div>
+<div id="contenidoFuncionesBalanza" style="display:none;max-width:520px;margin:0 auto 18px auto;background:#181818;color:#ffe066;border-radius:10px;padding:18px 18px 12px 18px;text-align:center;">
+  <b id="mensajeFuncionesBalanza"></b>
+</div>
+<script>
+let pasoPorCodigo = false;
+
+function verificarCodigoBalanza() {
+  const codigo = document.getElementById("inputCodigoBalanza").value.trim();
+  if (codigo === CODIGO_BALANZA) {
+    window.pasoPorCodigo = true;
+    document.getElementById('pantallaCodigo').style.display = 'none';
+    document.getElementById('pantallaLogin').style.display = 'flex';
+  } else {
+    document.getElementById('mensajeCodigoBalanza').innerText = "Código incorrecto.";
+  }
+}
+
+function entrarSinCodigo(e) {
+  e.preventDefault();
+  window.pasoPorCodigo = false;
+  document.getElementById('pantallaCodigo').style.display = 'none';
+  document.getElementById('pantallaLogin').style.display = 'flex';
+}
+
+function toggleFuncionesBalanza() {
+  const contenido = document.getElementById('contenidoFuncionesBalanza');
+  const mensaje = document.getElementById('mensajeFuncionesBalanza');
+  if (contenido.style.display === 'none' || contenido.style.display === '') {
+    contenido.style.display = 'block';
+    if (window.pasoPorCodigo) {
+      mensaje.textContent = "¡Todavía esto está en desarrollo pero buen trabajo por descubrir el código oculto!";
+    } else {
+      mensaje.textContent = "Buen intento campeón";
+    }
+  } else {
+    contenido.style.display = 'none';
+  }
+}
+</script>
 
   <!-- Comentarios falsos -->
   <div style="margin-bottom:18px;">
