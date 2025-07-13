@@ -163,7 +163,10 @@ window.iniciarSesion = function() {
     return;
   }
   signInWithEmailAndPassword(auth, email, password)
-    .then(() => {
+    .then((userCredential) => {
+      const user = userCredential.user;
+      // Guarda el apodo (displayName) en localStorage
+      localStorage.setItem('nickUsuario', user.displayName || 'usuario');
       document.getElementById('loginMensaje').innerText = "Sesión iniciada";
       setTimeout(ocultarPantallaLogin, 800);
     })
@@ -171,7 +174,16 @@ window.iniciarSesion = function() {
       document.getElementById('loginMensaje').innerText = "Error: " + error.message;
     });
 };
-
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // Guarda el apodo en localStorage cada vez que hay sesión activa
+    localStorage.setItem('nickUsuario', user.displayName || 'usuario');
+    ocultarPantallaLogin();
+  } else {
+    document.getElementById('pantallaLogin').style.display = 'flex';
+    document.getElementById('contenidoWeb').style.display = 'none';
+  }
+});
 // Oculta la pantalla si ya hay sesión iniciada
 onAuthStateChanged(auth, (user) => {
   if (user) {
@@ -184,34 +196,6 @@ onAuthStateChanged(auth, (user) => {
 </script>
 <div id="contenidoWeb" style="display: none;"></div>
 
-   <div style="width:100%;display:flex;justify-content:flex-end;align-items:center;margin-bottom:10px;">
-  <a href="Presentacion/index.html" style="text-decoration:none;" target="_blank" rel="noopener">
-    <button style="
-      background: linear-gradient(90deg, #66e0ff 0%, #ffe066 100%);
-      color: #222;
-      font-weight: bold;
-      font-size: 1.18em;
-      border: none;
-      border-radius: 30px;
-      padding: 12px 38px;
-      margin: 18px 32px 0 0;
-      box-shadow: 0 4px 18px #ffe06655, 0 2px 8px #66e0ff33;
-      transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
-      cursor: pointer;
-    "
-    onmouseover="this.style.background='linear-gradient(90deg,#ffe066 0%,#66e0ff 100%)';this.style.transform='scale(1.06)';"
-    onmouseout="this.style.background='linear-gradient(90deg,#66e0ff 0%,#ffe066 100%)';this.style.transform='scale(1)';"
-    >
-      <span style="vertical-align:middle;display:inline-block;margin-right:10px;">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;">
-          <circle cx="12" cy="12" r="10" fill="#ffe066" stroke="#66e0ff"/>
-          <path d="M8 12l3 3 5-5" stroke="#222" stroke-width="2.2" fill="none"/>
-        </svg>
-      </span>
-      Presentación
-    </button>
-  </a>
-</div>
 
     <div class="foco" id="focoContainer">
         <!-- SVG de foquito normal -->
@@ -823,6 +807,7 @@ function toggleFuncionesBalanza() {
     seleccionarEstrellas(5);
     mostrarComentarios();
   };
+  
 </script>
 <div class="iconos-sociales">
   <a href="https://mail.google.com/mail/u/0/#inbox/FMfcgzQbfxbzBdLLrWLhgmKhxWFpFrpq?compose=CllgCJZbhvHwQkgcmwGVqqdbCBRZdngZzcQZwjkQXhWlvdQVgbGwCvfBScCFWDvkCPLWGpvqNnB" target="_blank" title="Enviar correo">
