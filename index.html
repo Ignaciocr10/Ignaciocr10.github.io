@@ -704,13 +704,52 @@ function toggleFuncionesBalanza() {
   if (contenido.style.display === 'none' || contenido.style.display === '') {
     contenido.style.display = 'block';
     if (window.pasoPorCodigo) {
-      mensaje.textContent = "¡Todavía esto está en desarrollo!";
+      // Mostrar la función especial
+  mensaje.innerHTML = `
+  <div>
+    <b>Calcula tu máximo de gasto eléctrico para el próximo mes:</b><br>
+    <label>Presupuesto anual (S/): <input type="number" id="presupuestoAnual" min="0" style="width:90px;"></label><br>
+    <label>Gasto este mes (kWh): <input type="number" id="gastoMesActual" min="0" style="width:90px;"></label><br>
+    <button onclick="calcularMaximoGasto()">Calcular</button>
+    <div id="resultadoMaximoGasto" style="margin-top:10px;"></div>
+  </div>
+`;
     } else {
-      mensaje.textContent = "Error Codigo No Insertado intente de nuevo   ";
+      mensaje.textContent = "Error Codigo No Insertado Intente de nuevo";
     }
   } else {
     contenido.style.display = 'none';
   }
+}
+
+// ...Reemplaza la función calcularMaximoGasto por esta versión...
+function calcularMaximoGasto() {
+  const PRECIO_KWH = 0.6589;
+  const presupuesto = parseFloat(document.getElementById('presupuestoAnual').value) || 0;
+  const gastoMes = parseFloat(document.getElementById('gastoMesActual').value) || 0;
+  const fecha = new Date();
+  const mesActual = fecha.getMonth() + 1; // Enero = 1
+
+  if (presupuesto <= 0 || gastoMes < 0) {
+    document.getElementById('resultadoMaximoGasto').innerHTML = "<span style='color:#ff6666;'>Ingresa valores válidos.</span>";
+    return;
+  }
+
+  // Gasto acumulado hasta este mes
+  const gastoAcumulado = gastoMes * mesActual;
+  // Presupuesto restante para el año
+  const presupuestoRestante = presupuesto - gastoAcumulado;
+  // Meses que faltan
+  const mesesRestantes = 12 - mesActual;
+
+  let maximoSoles = mesesRestantes > 0 ? presupuestoRestante / mesesRestantes : 0;
+  maximoSoles = Math.max(0, maximoSoles);
+  let maximoKwh = maximoSoles / PRECIO_KWH;
+
+  document.getElementById('resultadoMaximoGasto').innerHTML =
+    `<b>Máximo de gasto eléctrico recomendado para el próximo mes:</b><br>
+    <span style="color:#66e0ff;font-size:1.2em;">S/ ${maximoSoles.toFixed(2)}</span><br>
+    <span style="color:#ffe066;font-size:1.2em;">${maximoKwh.toFixed(2)} kWh</span>`;
 }
 </script>
 
